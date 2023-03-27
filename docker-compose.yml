@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile
       target: builder
     restart: always
+    environment:
+      - DEV_DATABASE_URL=postgresql://postgres:password@db:5432/talk_tidbits
     ports:
       - "8000:8000"
     volumes:
@@ -18,6 +20,9 @@ services:
       - db
 
   db:
+  # docker-compose exec web flask db init
+  # docker-compose exec web flask db migrate
+  # docker-compose exec web flask db upgrade
     image: postgres:15
     restart: always
     environment:
