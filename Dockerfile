@@ -11,6 +11,8 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 COPY . .
 
+FROM builder AS dev-env
+
 ENV FLASK_APP main.py
 ENV FLASK_DEBUG 1
 ENV FLASK_RUN_PORT 8000
@@ -21,19 +23,16 @@ EXPOSE 8000
 
 CMD ["flask", "run"]
 
-FROM builder AS dev-envs
+FROM builder AS debug-env
 
-RUN <<EOF
-apk update
-apk add git
-EOF
+RUN pip install debugpy
 
-RUN <<EOF
-addgroup -S docker
-adduser -S --shell /bin/bash --ingroup docker vscode
-EOF
+ENV FLASK_APP main.py
+ENV FLASK_DEBUG 1
+ENV FLASK_RUN_PORT 8000
+ENV FLASK_RUN_HOST 0.0.0.0
+ENV FLASK_CONFIG development
 
-# install Docker tools (cli, buildx, compose)
-COPY --from=gloursdocker/docker / /
+EXPOSE 8000
 
-CMD ["flask", "run"]
+CMD python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m flask run

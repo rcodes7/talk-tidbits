@@ -35,7 +35,7 @@
                     "localRoot": "${workspaceFolder}",
                     "remoteRoot": "/code"
                 }
-            ]
+            ],
         }
     ]
 }

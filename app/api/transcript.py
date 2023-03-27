@@ -1,5 +1,7 @@
 from flask import jsonify, request, make_response
 from . import api
+from .. import db
+from ..models import Transcription
 import whisper
 import tempfile
 
@@ -17,7 +19,7 @@ def generate_transcipt():
     model = whisper.load_model('base')
     with tempfile.NamedTemporaryFile(delete=True) as temp:
         _file.save(temp.name)
-        result = model.transcribe(temp.name)    
+        result = model.transcribe(temp.name)
 
     
     return make_response(jsonify({'transcript': result['text']}), 200)

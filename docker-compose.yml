@@ -6,12 +6,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: builder
+      target: debug-env
     restart: always
     environment:
       - DEV_DATABASE_URL=postgresql://postgres:password@db:5432/talk_tidbits
     ports:
-      - "8000:8000"
+      - 8000:8000
+      - 5678:5678
     volumes:
       - .:/code
     networks:
