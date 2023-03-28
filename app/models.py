@@ -1,11 +1,15 @@
 from . import db
+from sqlalchemy import Enum
+
 
 class Transcription(db.Model):
     __tablename__ = 'transcriptions'
     id = db.Column(db.Integer, primary_key=True)
-    file_name = db.Column(db.String(120), unique=True, nullable=False)
+    file_name = db.Column(db.String(120), nullable=False)
     uuid = db.Column(db.String(32), unique=True, nullable=False)
     transcription = db.Column(db.Text, nullable=True)
+    transcription_time = db.Column(db.Float, nullable=True)
+    transcription_source = db.Column(db.Enum("local", "openai", name="transcription_source_enum"), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     summaries = db.relationship('Summary', backref='transcription', lazy=True)

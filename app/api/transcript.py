@@ -5,6 +5,7 @@ from .. import db
 from ..models import Transcription, Segment
 import whisper
 import tempfile
+import time
 
 @api.route('/transcript/', methods=['POST'])
 def generate_transcipt():
@@ -16,11 +17,14 @@ def generate_transcipt():
     if not _file or not _file.filename:
         return make_response(jsonify({'error': 'No file selected'}), 400)
     
-    model = whisper.load_model('base')
+    model = whisper.load_model('small')
     with tempfile.NamedTemporaryFile(delete=True) as temp:
         _file.save(temp.name)
+        start_time = time.time()
         result = model.transcribe(temp.name)
-        transcription = Transcription(file_name=_file.filename, transcription=result['text'], uuid=uuid4().hex)
+        end_time = time.time()
+        transcription_time = end_time - start_time
+        transcription = Transcription(file_name=_file.filename, transcription=result['text'], uuid=uuid4().hex, transcription_time=transcription_time, transcription_source='local')
         db.session.add(transcription)
         db.session.commit()
         for segment in result['segments']:
