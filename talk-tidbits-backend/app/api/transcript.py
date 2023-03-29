@@ -17,7 +17,7 @@ def generate_transcipt():
     if not _file or not _file.filename:
         return make_response(jsonify({'error': 'No file selected'}), 400)
     
-    model = whisper.load_model('small')
+    model = whisper.load_model('base')
     with tempfile.NamedTemporaryFile(delete=True) as temp:
         _file.save(temp.name)
         start_time = time.time()
