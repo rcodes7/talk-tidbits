@@ -2,11 +2,23 @@ version: '3'
 
 services:
 
+  ui:
+    build:
+      context: ./talk-tidbits-frontend
+      dockerfile: Dockerfile
+      target: development
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./talk-tidbits-frontend:/app
+
   web:
     build:
       context: ./talk-tidbits-backend
       dockerfile: Dockerfile
-      target: debug-env
+      target: dev-env
+      # target: debug-env
     restart: always
     environment:
       - DEV_DATABASE_URL=postgresql://postgres:password@db:5432/talk_tidbits
