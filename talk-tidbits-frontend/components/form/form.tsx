@@ -5,9 +5,14 @@ type FormProps = {
   children: React.ReactElement[]
   defaultValues?: any
   onSubmit: (data: any) => void
-}
+} & React.FormHTMLAttributes<HTMLFormElement>
 
-export default function Form({ defaultValues, onSubmit, children }: FormProps) {
+export default function Form({
+  defaultValues,
+  onSubmit,
+  children,
+  className,
+}: FormProps) {
   const { handleSubmit, register } = useForm({ defaultValues })
 
   const registerChildren = (child: React.ReactNode): React.ReactNode => {
@@ -34,7 +39,7 @@ export default function Form({ defaultValues, onSubmit, children }: FormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} {...(className && { className })}>
       {React.Children.map(children, registerChildren)}
     </form>
   )

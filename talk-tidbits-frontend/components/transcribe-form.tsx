@@ -10,26 +10,35 @@ export default function TranscribeForm() {
   console.log(watch('transcriptionTarget'))
 
   return (
-    <Form onSubmit={onSubmit}>
-      <div className="form-control">
+    <Form
+      onSubmit={onSubmit}
+      className="flex flex-col items-center w-full gap-6"
+    >
+      <div className="form-control w-full">
         <label className="label">
           <span className="label-text">Select audio file to transcribe.</span>
         </label>
-        <Input type="file" name="audioFile" />
+        <Input
+          type="file"
+          name="audioFile"
+          className="file-input file-input-bordered file-input-md w-full"
+        />
       </div>
-      <div className="form-control">
+      <div className="w-full">
         <label className="label">
           <span className="label-text">Transcribe using Local or OpenAI?</span>
         </label>
-        <RadioGroup
-          name="transcriptionTarget"
-          options={[
-            { label: 'Local', value: 'local' },
-            { label: 'OpenAI', value: 'openai' },
-          ]}
-        />
+        <div className="form-control">
+          <RadioGroup
+            name="transcriptionTarget"
+            options={[
+              { label: 'Local', value: 'local' },
+              { label: 'OpenAI', value: 'openai' },
+            ]}
+          />
+        </div>
       </div>
-      <Input type="submit" value="Submit"></Input>
+      <Input type="submit" value="Submit" className="btn" />
     </Form>
   )
 }

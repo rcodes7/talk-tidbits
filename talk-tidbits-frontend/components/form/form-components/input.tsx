@@ -3,6 +3,7 @@ import { UseFormRegister } from 'react-hook-form'
 
 type InputProps = {
   register?: UseFormRegister<any>
+  inputLabel?: string
 } & React.InputHTMLAttributes<HTMLInputElement>
 
 export function Input({
