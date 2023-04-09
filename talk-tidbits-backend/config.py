@@ -5,6 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PORT = 8000
+    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
     
     @staticmethod
     def init_app(app):

@@ -1,7 +1,6 @@
-version: '3'
+version: "3"
 
 services:
-
   ui:
     build:
       context: ./talk-tidbits-frontend
@@ -22,20 +21,21 @@ services:
     restart: always
     environment:
       - DEV_DATABASE_URL=postgresql://postgres:password@db:5432/talk_tidbits
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     ports:
       - 8000:8000
       - 5678:5678
     volumes:
       - ./talk-tidbits-backend:/code
     networks:
-    - backend
+      - backend
     depends_on:
       - db
 
   db:
-  # docker-compose exec web flask db init
-  # docker-compose exec web flask db migrate
-  # docker-compose exec web flask db upgrade
+    # docker-compose exec web flask db init
+    # docker-compose exec web flask db migrate
+    # docker-compose exec web flask db upgrade
     image: postgres:15
     restart: always
     environment:
