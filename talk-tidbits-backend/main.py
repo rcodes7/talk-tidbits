@@ -6,11 +6,13 @@ from app.models import Transcription, Summary, Segment
 
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
-migrate  = Migrate(app, db)
+migrate = Migrate(app, db)
+
 
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db)
+
 
 @app.cli.command()
 @click.argument('test_names', nargs=-1)
